@@ -13,15 +13,16 @@ import redis.clients.jedis.Jedis;
  */
 public class Redis {
 
+    @SuppressWarnings("empty-statement")
     public static void main(String[] args) {
         //Connect to Redis server using localhost
         Jedis jedis = new Jedis("localhost");
         System.out.println("Connection successful");
 
         //Checking server
-        System.out.println("Getting response from the server: " + jedis.get("key1"));
 
         String cacheKey = "languages";
+        String json = "{\"movieID\":\"1\",\"title\":\"Alpha Dog\",\"genre\":\"Crime|Drama\"}";
 
         //Adding a set as value
         jedis.sadd(cacheKey, "Java", "C#", "Python");//SADD
@@ -31,7 +32,17 @@ public class Redis {
         //Adding new values
         jedis.sadd(cacheKey, "Java", "Ruby");
         //Getting the values... it doesn't allow duplicates
-        System.out.println("Languages: " + jedis.smembers(cacheKey));
+        System.out.println("Languages: " + jedis.smembers(cacheKey));// adds element Ruby to the set
+
+        jedis.sadd(json, json);//SADD
+
+
+        System.out.println("JSON : " + jedis.smembers(json));
+
+        System.out.println("Getting response from the server: " + jedis.get("key1"));
+        System.out.println("response from the server: " + jedis.lrange("mylist", 0, -1));// Returns the specified elements of the list stored at key
+
+
     }
 
 }
