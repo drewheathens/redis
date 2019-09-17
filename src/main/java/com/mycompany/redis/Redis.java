@@ -31,6 +31,7 @@ public class Redis {
         System.out.println("Languages: " + jedis.smembers(cacheKey));
         //Adding new values
         jedis.sadd(cacheKey, "Java", "Ruby");
+        jedis.rpush("mylist", "4", "7", "seeven"); // insert into key mylist
         //Getting the values... it doesn't allow duplicates
         System.out.println("Languages: " + jedis.smembers(cacheKey));// adds element Ruby to the set
 
@@ -40,7 +41,9 @@ public class Redis {
         System.out.println("JSON : " + jedis.smembers(json));
 
         System.out.println("Getting response from the server: " + jedis.get("key1"));
-        System.out.println("response from the server: " + jedis.lrange("mylist", 0, -1));// Returns the specified elements of the list stored at key
+        System.out.println("response from the server: " + jedis.lrange("mylist", 0, -1));// Returns the specified elements of the list stored at key, was accessed by LRANGE mylist 0 -1(redis-cli)
+        // RPUSH mylist "four"
+
 
 
     }
